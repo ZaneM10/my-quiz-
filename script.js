@@ -22,56 +22,57 @@ var questions = [
   {
     question: "What does H.T.M.L stand for ?  1/4",
     answerA: "Hyper Text Markup Language",
-    answerB: "wfwfwfwf",
-    answerC: "ewfwffwf",
-    answerD: "jfbwfjb",
-    correctAnswer: "A",
+    answerB: "Hyper Texture Makeup Log",
+    answerC: "Ham Toast Mayo Lettuce",
+    answerD: "Home Tool Maintainace Logic",
+    correctAnswer: "Hyper Text Markup Language",
   },
   {
     question: "What does C.S.S stand for ?  2/4",
-    answerA: "jbv;dvbs",
-    answerB: "wfwfwfwf",
+    answerA: "Curb Side Sandwhices ",
+    answerB: "Converse Sneakers and Slides",
     answerC: "Cascading Style Sheets",
-    answerD: "jfbwfjb",
-    correctAnswer: "C",
+    answerD: "Case Styled Shoes",
+    correctAnswer: "Cascading Style Sheets",
   },
   {
     question: "What is Java Script ?  3/4",
-    answerA: ";lmf;n;gng ",
-    answerB: "wfwfwfwf",
-    answerC: "ewfwffwf",
+    answerA: "The coffee menu",
+    answerB: "Code that we use to put color the page ",
+    answerC: "Something from history class",
     answerD: "interactions that we put on the page",
-    correctAnswer: "D",
+    correctAnswer: "interactions that we put on the page",
   },
   {
     question: "Why do we use C.S.S ?  4/4",
-    answerA: "flj3ngig",
+    answerA: "Cascading Styled Sheets",
     answerB: "To make things look pretty",
-    answerC: "ewfwffwf",
-    answerD: "jfbwfjb",
-    correctAnswer: "B",
+    answerC: "What even is C.S.S. ?",
+    answerD: "To make things interactive with the user",
+    correctAnswer: "To make things look pretty",
+    
   },
 ];
 
 function endGame() {
   alert("Quiz is Done");
-  alert("your hightscore is " + highscore + " is");
-  console.log('gameover')
+  alert("you got " + highscore + " out of 4 questions");
+  alert("you finished with " + secondsLeft + " seconds left")
+  console.log('gameover');
+  reloadPage();
 }
-var secondsLeft = 60;
+var secondsLeft = 120;
 
 function startTimer() {
-  var countdown = setInterval(function startTimer() {
-    secondsLeft--;
-    if (secondsLeft <= 0) {
-      clearInterval(countdown);
-      endGame();
-    } else {
-      document.getElementById("time");
-    }
+  timerInterval = setInterval(function () {
+      secondsLeft--;
+      if (secondsLeft <= 0) {
+          endGame();
+      }
+      document.getElementById('timer').textContent = 'Timer: ' + secondsLeft;
+      console.log('interval running', secondsLeft);
   }, 1000);
-  console.log(secondsLeft)
-  endGame();
+
 }
 
 var questionIndex = 0;
@@ -85,66 +86,76 @@ function askNextQuestion() {
     answerCElment.textContent = questions[questionIndex].answerC;
     answerDElment.textContent = questions[questionIndex].answerD;
   }
-  questionIndex++;
+ 
 }
 
 answerAElment.addEventListener("click", function (event) {
   //   event.preventDeafault();
   console.log("Answer A has been clicked");
-
-  if (questions[questionIndex].correctAnswer === "A") {
+  var userGuess = event.target.textContent
+  console.log(questions[questionIndex].correctAnswer)
+  if (questions[questionIndex].correctAnswer === userGuess) {
     alert("Correct");
-    highscore + 250;
+    highscore ++;
   } else {
     alert("Incorrect");
+    secondsLeft -=20;
   }
+  questionIndex++
   askNextQuestion();
 });
 answerBElment.addEventListener("click", function (event) {
   // event.preventDeafault();
   console.log("Answer B has been clicked");
-
-  if (questions[questionIndex].correctAnswer === "B") {
+  var userGuess = event.target.textContent
+  if (questions[questionIndex].correctAnswer === userGuess) {
     alert("Correct");
     highscore ++;
   } else {
     alert("Incorrect");
+    secondsLeft -=20;
   }
+  questionIndex++
   askNextQuestion();
 });
 answerCElment.addEventListener("click", function (event) {
   // event.preventDeafault();
   console.log("Answer C has been clicked");
-
-  if (questions[questionIndex].correctAnswer === "C") {
+  var userGuess = event.target.textContent
+  if (questions[questionIndex].correctAnswer === userGuess) {
     alert("Correct");
     highscore ++;
   } else {
     alert("Incorrect");
+    secondsLeft -=20;
   }
+  questionIndex++
   askNextQuestion();
 });
 answerDElment.addEventListener("click", function (event) {
   // event.preventDeafault();
   console.log("Answer D has been clicked");
-
-  if (questions[questionIndex].correctAnswer === "D") {
+  var userGuess = event.target.textContent
+  if (questions[questionIndex].correctAnswer === userGuess) {
     alert("Correct");
     highscore ++;
   } else {
     alert("Incorrect");
+    secondsLeft -=20;
   }
+  questionIndex++
   askNextQuestion();
+ 
 });
 
 function startGame() {
   document.getElementById("con").classList.toggle("hide");
   document.getElementById("info-list").classList.toggle("hide");
-  preventDeafault();
-  startTimer();
   askNextQuestion();
 }
-
+function reloadPage(){
+  window.location.reload();
+}
 startBtn.addEventListener("click", function (event) {
   infoList.style.display = "none";
   infoTitle.style.display = "none";
@@ -157,7 +168,8 @@ startBtn.addEventListener("click", function (event) {
   console.log("con");
   startGame();
   askNextQuestion();
+  startTimer();
 });
 
 startGame();
-startTimer();
+ 
